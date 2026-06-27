@@ -7,9 +7,26 @@ A VHDL-based Smart Parking System that uses a DE10-Lite FPGA to manage an 8-spot
   <img src="docs/screenshots/Post_Without_Comments.webp" width="30%" />
 </p>
 
-## 💡Project Idea
-The idea of this project is to create a smart parking system. Initially, The number of empty spots is 8 and it works in 2 modes. The autonomous mode makes use of 2 sensors such that when the first sensor detects a car, the gate opens using a servo motor. The second sensor detects when a car has passed the gate. When it detects the presence of the car, the number of empty spots decrement by 1. The manual mode works by pressing a button which opens and closes the gate. When it closes the gate, it decrements the number of empty spots by 1. There’s also a reset button that when pressed, returns the counter to 8 in any mode. The logic for the program is done entirely in VHDL.
+## 🔧Installation & Setup
+  ### 1. Download & extract the ZIP
+  
+  ### 2. Open CMD in the folder that contains App.tsx
+  
+  ### 3. Run the following:-
+  ```
+  npm install expo
+  ```
+  ```
+  npx expo start
+  ```
+  you'll see a QR Code appear in your terminal.
+  
+  ### 4. Download "Expo Go" on your Phone.
 
+  ### 5. Open the app & scan the QR code.
+
+ 🎉 CONGRATULATIONS! You're ready to go :D
+  
 ## 🔧Parts Used
 * 2x **KY-032 Infrared Sensors**
 * 1x **SG-90 Servo Motor**
