@@ -25,7 +25,9 @@ A VHDL-based Smart Parking System that uses a DE10-Lite FPGA to manage an 8-spot
 
   ### 5. Open the app & scan the QR code.
 
- 🎉 CONGRATULATIONS! You're ready to go :D
+  ### 🎉 CONGRATULATIONS! You're ready to go :D
+
+
   
 ## 🔧Parts Used
 * 2x **KY-032 Infrared Sensors**
