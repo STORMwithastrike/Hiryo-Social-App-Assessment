@@ -6,27 +6,40 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
-} from "react-native";
-import { Post, User } from "../types/index";
-import { api } from "../services/api";
+} from "react-native"; //imports mobile develpment UI building blocks
+import { Post, User } from "../types/index"; //import post & user blueprints from index.ts
+import { api } from "../services/api"; //imports the custom service api created in api.ts
 
 interface Props {
-  post: Post;
-  onPress?: () => void;
-  isDetail?: boolean;
+  //defines the prpoerties of a post
+  post: Post; //ensures a post follows the Post bp
+  onPress?: () => void; //? = optional function designed to handle the pressing of a post by a user
+  isDetail?: boolean; //? = optional boolean to indicate if the post is in detail view
 }
 
 export default function PostCard({ post, onPress, isDetail = false }: Props) {
+  //creates the actual postcard ekements.
+  //isDetail is assumed to be false by default so that if this data isn't passed then the app doesn't break
+
   const [user, setUser] = useState<User | null>(null);
+  // initially has no user data, gets updated when fetchUser is called
+
   const [loading, setLoading] = useState(true);
+  //used to load the UI element initially, then display a loading state
+  //once the delayed data arrives, the content is displayed and its state changes to loaded (loading = false)
 
   useEffect(() => {
+    //desgined to display loading state and change it once data arrives
     const fetchUser = async () => {
+      //async function used because of unpredictable fetching time (async functions can pause and wait)
       try {
         const userData = await api.getUserById(post.user_id);
+        //lazy loading is perfromed where each card uses the ID it was given to fetch its own user data rather than having to do multiple api calls
+
         setUser(userData);
       } catch (error) {
-        // Fallback if user is deleted or not found on GoRest
+        // fallback if user is deleted or not found on GoRest
+
         setUser({
           id: post.user_id,
           name: `User ${post.user_id}`,
@@ -43,30 +56,32 @@ export default function PostCard({ post, onPress, isDetail = false }: Props) {
 
   const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "U")}&background=6d31ea&color=fff&rounded=true`;
 
-  const CardContent = (
-    <View style={[styles.card, isDetail && styles.detailCard]}>
-      <View style={styles.header}>
-        {loading ? (
-          <ActivityIndicator
-            size="small"
-            color="#6d31ea"
-            style={styles.loader}
-          />
-        ) : (
-          <>
-            <Image source={{ uri: avatarUrl }} style={styles.avatar} />
-            <Text style={styles.userName}>{user?.name}</Text>
-          </>
-        )}
+  const CardContent = //actual card formatting
+    (
+      <View style={[styles.card, isDetail && styles.detailCard]}>
+        <View style={styles.header}>
+          {loading ? (
+            <ActivityIndicator
+              size="small"
+              color="#6d31ea"
+              style={styles.loader}
+            />
+          ) : (
+            <>
+              <Image source={{ uri: avatarUrl }} style={styles.avatar} />
+              <Text style={styles.userName}>{user?.name}</Text>
+            </>
+          )}
+        </View>
+        <Text style={styles.title}>{post.title}</Text>
+        <Text style={styles.body} numberOfLines={isDetail ? undefined : 3}>
+          {post.body}
+        </Text>
       </View>
-      <Text style={styles.title}>{post.title}</Text>
-      <Text style={styles.body} numberOfLines={isDetail ? undefined : 3}>
-        {post.body}
-      </Text>
-    </View>
-  );
+    );
 
   if (onPress) {
+    //if onPress is true, then card reacts to user input by changing opacity to indicate it was pressed
     return (
       <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
         {CardContent}

@@ -1,4 +1,5 @@
 export interface Post {
+  //outlines the bp for the varaibles a post should have
   id: number;
   user_id: number;
   title: string;
@@ -6,6 +7,7 @@ export interface Post {
 }
 
 export interface Comment {
+  //outlines the bp for the varaibles a comment should have
   id: number;
   post_id: number;
   name: string;
@@ -14,6 +16,7 @@ export interface Comment {
 }
 
 export interface User {
+  //outlines the bp for the varaibles a user should have
   id: number;
   name: string;
   email: string;

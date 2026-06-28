@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
   View,
-  FlatList,
+  FlatList, //it's an optimized compnent for rendering large lists smoothly
   ActivityIndicator,
   StyleSheet,
-  RefreshControl,
+  RefreshControl, //used for pull to rrefresh functionality
 } from "react-native";
 import { Post, RootStackParamList } from "../types/index";
 import { api } from "../services/api";
@@ -22,33 +22,34 @@ interface Props {
 }
 
 export default function HomeScreen({ navigation }: Props) {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const [posts, setPosts] = useState<Post[]>([]); //an array of posts that starts empty initially
+  const [loading, setLoading] = useState(true); //sets page loading to true initially
+  const [refreshing, setRefreshing] = useState(false); //sets refresh to false intially
 
   const fetchPosts = async () => {
     try {
       const data = await api.getPosts();
-      setPosts(data);
+      setPosts(data); //waits for posts to arrive, and once they do they're saved into the posts array
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      console.error("Error fetching posts:", error); //logs error to console if posts fail to load
     } finally {
-      setLoading(false);
+      setLoading(false); //stops loading & refresh state whether they succeed or fail.
       setRefreshing(false);
     }
   };
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts(); //designed to fetch posts when page is loaded initially
   }, []);
 
   const onRefresh = () => {
-    setRefreshing(true);
+    setRefreshing(true); //sets the refresh state to true and fetch posts everytime user refreshes
     fetchPosts();
   };
 
   if (loading) {
     return (
+      //shows the loading spinner UI elemetn
       <View style={styles.centered}>
         <ActivityIndicator size="large" color="#6d31ea" />
       </View>
@@ -56,6 +57,7 @@ export default function HomeScreen({ navigation }: Props) {
   }
 
   return (
+    //returns the homepage UI elemnt and formatting
     <View style={styles.container}>
       <FlatList
         data={posts}
